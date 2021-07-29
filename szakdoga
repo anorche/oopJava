@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+public class FszSeTudja {
+
+    public static void main(String[] args) {
+
+
+        double[][] matrix = {
+                {-4, 0, -2, 8},
+                {-11, 9, 3, -5},
+                {-7, 6, 4, -10},
+                {-3, 2, 1, -2}
+        };
+        double[] vektor ={8,17,8,4};
+
+        int sorok = matrix.length;
+        int oszlopok = matrix[0].length;
+
+        System.out.println("Sorok " + sorok + " Oszlopok " + oszlopok);
+
+        double[][] TeljesMatrix = new double[sorok][oszlopok+1];
+
+        for (int i = 0; i<sorok; i++){
+            for (int j = 0; j<oszlopok; j++){
+                TeljesMatrix[i][j]=matrix[i][j];
+            }
+        }
+
+        for (int i=0; i<sorok;i++){
+            TeljesMatrix[i][oszlopok]=vektor[i];
+        }
+
+        for (int i = 0; i<sorok; i++){
+            for (int j = 0; j<oszlopok+1; j++){
+                System.out.print(TeljesMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        //p helyen 1/p
+        //p sorat osztjuk p -vel
+        // p oszlapat -p -vel
+        //tobbi elem x=(a*b)/p
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Adja meg a pivot elem sorat: ");
+        int bekertSor=input.nextInt();
+        System.out.println("Adja meg a pivot elem oszlopat: ");
+        int bekertOszlop=input.nextInt();
+        bekertSor=bekertSor-1;
+        bekertOszlop=bekertOszlop-1;
+
+        for(int i=0;i< TeljesMatrix.length;i++){
+            for(int j=0;j<TeljesMatrix[0].length;j++){
+                if(i==bekertSor && j==bekertOszlop){
+                    TeljesMatrix[i][j]=1/ TeljesMatrix[i][j];
+                }
+                if(i==bekertSor){
+                    TeljesMatrix[i][j]=TeljesMatrix[i][j]/TeljesMatrix[bekertSor][bekertOszlop];
+                }
+                if(j==bekertOszlop){
+                    TeljesMatrix[i][j]=TeljesMatrix[i][j]/TeljesMatrix[bekertSor][bekertOszlop]*-1;
+                }
+                if(i!=bekertSor && j!=bekertOszlop){
+                    TeljesMatrix[i][j]=TeljesMatrix[i][j]-(TeljesMatrix[bekertSor][j]*TeljesMatrix[i][bekertOszlop])/TeljesMatrix[i][j];
+                }
+
+            }
+        }
+
+        for (int i = 0; i<sorok; i++){
+            for (int j = 0; j<oszlopok+1; j++){
+                System.out.print(TeljesMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+
+
+
+    }
+}
